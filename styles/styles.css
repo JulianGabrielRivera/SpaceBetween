@@ -1,9 +1,16 @@
 body {
   background-image: url(/img/space.jpg);
   background-color: black;
+  /* overflow: hidden; */
 }
-canvas {
+/* canvas {
   /* border: 1px solid red; */
+} */
+#canvas2 {
+  border: 1px solid red;
+}
+.hidden{
+  display:none;
 }
 .spacebetween {
   display: flex;

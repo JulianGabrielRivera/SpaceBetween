@@ -11,7 +11,8 @@
   <body>
     <div class="spacebetween">
       <div class="flex">
-        <div class="text score">0</div>
+        <div class="text score">Lift me up: <span>0</span></div>
+
         <div class="text dodged">Dodged:</div>
       </div>
       <!-- the magic happens inside this tag - 
@@ -25,15 +26,18 @@
           ><span class="box dkey">D</span>
         </div>
         <canvas id="canvas" width="800" height="400"></canvas>
+        <canvas id="canvas2" class="hidden" width="800" height="400"></canvas>
+        <div class="level">Level: <span>1</span></div>
         <button id="start-button">Fall with me</button>
 
         <img class="spaceshuttle" src="img/movespaceshuttle.png" />
       </div>
     </div>
+
     <!-- include js file after DOM is loaded; 
             if included earlier, you have to use window.onload = function(){ ... } 
             approach in your intro.js file -->
-    <script src="./javascript/increment.js"></script>
+
     <script src="./javascript/intro.js"></script>
   </body>
 </html>

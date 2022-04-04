@@ -1,9 +1,8 @@
 // when you click this button it loads the game.
-const Timerone = new Timer();
+
 // once html is loaded start game/timer
 window.onload = () => {
   document.getElementById('start-button').onclick = () => {
-    Timerone.start();
     startGame();
   };
 };
@@ -13,7 +12,8 @@ const sKey = document.querySelector('.skey');
 const aKey = document.querySelector('.akey');
 const dKey = document.querySelector('.dkey');
 
-const liftedUp = document.querySelector('.score');
+const liftedUp = document.querySelector('.score span');
+const levelUp = document.querySelector('.level span');
 
 // function to start the game, creates the canvas
 function startGame() {
@@ -78,6 +78,7 @@ function startGame() {
   //  changed this into a class so we could run a for loop to make a bunch of them
 
   const myFireballs = [];
+
   class Fireballs {
     constructor(ctx) {
       this.img = fireball;
@@ -114,14 +115,29 @@ function startGame() {
       return this.y + this.height;
     }
   }
-  let count = 1;
-  let increase = setInterval(increment, 1000);
-  function increment() {
-    count++;
-    liftedUp.textContent = count;
 
-    clearInterval(increase);
+  let count = 0;
+
+  function increment() {
+    count = count + 1;
+    liftedUp.textContent = count;
+    if (count > 30) {
+      levelUp.textContent = 2;
+    }
+    if (count > 50) {
+      levelUp.textContent = 3;
+    }
   }
+
+  // end of each level clear it and start fresh on next level
+
+  // we set an interval here  cause we want it to keep going and we dont need an ID because we arent stopping it.
+
+  function minus() {
+    count--;
+    liftedUp.textContent = count;
+  }
+  setInterval(minus, 2000);
 
   const astro = {
     img: astronautFalling,
@@ -171,9 +187,7 @@ function startGame() {
     bottomBorder() {
       return this.y + this.height;
     },
-    onFire(aFireball) {
-      return !(astro.leftBorder() > aFireball.rightSide());
-    },
+
     velocity: function () {
       astro.x += astro.vx;
       astro.y += astro.vy;
@@ -185,11 +199,25 @@ function startGame() {
         astro.vx *= -1;
       }
     },
+
+    //     alert('yo');
+    //   }
+
     // gravity: function () {
     //   this.vy += gravity;
-    //   this.vx += gravity;
+    //   this.vx aFireball
     // },
   };
+  function onFire(aFireball) {
+    if (
+      astro.x < aFireball.x + aFireball.width &&
+      astro.x + astro.width > aFireball.x &&
+      astro.y < aFireball.y + aFireball.width &&
+      astro.y + astro.height > aFireball.y
+    ) {
+      console.log('dying');
+    }
+  }
 
   //   class Increment {
   // constructor(){
@@ -199,6 +227,11 @@ function startGame() {
 
   //   }
 
+  // function onFire(aFireball) {
+  //   if (astro.leftBorder() + this.width > Fireballs.leftSide()) {
+  //     alert('yo');
+  //   }
+  // }
   const mysideBalls = [];
 
   class sideBalls {
@@ -229,15 +262,15 @@ function startGame() {
     //every second
 
     // 1 / 1000 mi = 1 fps 10/1000  = 1/100
-    if (timestamp - start > 33) {
-      console.log(`current time in game loop  ${timestamp}`);
+    if (timestamp - start > 8) {
+      // console.log(`current time in game loop  ${timestamp}`);
       spaceImageObject.move();
       frame += 1;
 
       if (frame % 150 === 0) {
         myFireballs.push(new Fireballs(ctx));
       }
-      if (frame % 250 === 0) {
+      if (frame % 100 === 0 && count >= 10) {
         mysideBalls.push(new sideBalls(ctx));
       }
 
@@ -258,6 +291,8 @@ function startGame() {
         myFireballs[i].move();
         myFireballs[i].draw();
         myFireballs[i].velocity();
+        onFire(myFireballs[i]);
+        // onFire(myFireballs[i]);
       }
       for (let i = 0; i < mysideBalls.length; i++) {
         mysideBalls[i].move();
@@ -309,16 +344,22 @@ function startGame() {
     // run updatespace in 33 milliseconds
     // console.log('about to call next loop but will wait 8 milsecs before exec');
     // setTimeout(updateSpace, 8);
-    console.log(`current time in request animation frame is  ${timestamp}`);
+
+    // console.log(`current time in request animation frame is  ${timestamp}`);
     requestAnimationFrame(updateSpace); // ? ask //
   }
+
+  window.addEventListener('mousemove', function (e) {
+    let x = e.pageX;
+    let y = e.pageY;
+  });
 
   window.addEventListener('keydown', (event) => {
     switch (event.key) {
       case 's':
-        console.log('yo');
         astro.moveDown();
         sKey.classList.toggle('toggle');
+        minus();
 
         break;
       case 'd':
@@ -335,6 +376,7 @@ function startGame() {
         astro.moveLeft();
         aKey.classList.toggle('toggle');
         break;
+
       case 'Control':
         console.log('hey');
         astro.gravity();
