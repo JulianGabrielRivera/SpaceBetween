@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Space Between</title>
+
+    <link rel="stylesheet" href="./styles/styles.css" />
+  </head>
+  <body>
+    <div class="spacebetween">
+      <div class="flex">
+        <div class="text score">Lifted up:</div>
+        <div class="text dodged">Dodged:</div>
+      </div>
+      <!-- the magic happens inside this tag - 
+            it's HTML5 tag that supports animation -->
+
+      <div id="space">
+        <h1>The Space Between 2</h1>
+        <div class="keys wkey"><span class="box">W</span></div>
+        <div class="keys">
+          <span class="box akey">A</span><span class="box skey">S</span
+          ><span class="box dkey">D</span>
+        </div>
+        <canvas id="canvas" width="800" height="400"></canvas>
+        <button id="start-button">Fall with me</button>
+
+        <img class="spaceshuttle" src="img/movespaceshuttle.png" />
+      </div>
+    </div>
+    <!-- include js file after DOM is loaded; 
+            if included earlier, you have to use window.onload = function(){ ... } 
+            approach in your intro.js file -->
+    <script src="./javascript/intro.js"></script>
+  </body>
+</html>
