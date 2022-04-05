@@ -29,6 +29,8 @@ function startGame() {
 
   const spaceImageTwo = new Image();
   spaceImageTwo.src = './img/earth.jpg';
+  const oneCookie = new Image();
+  oneCookie.src = './img/cookie.png';
 
   const astronautFalling = new Image();
   astronautFalling.src = './img/astronautfalling.png';
@@ -138,6 +140,76 @@ function startGame() {
     liftedUp.textContent = count;
   }
   setInterval(minus, 2000);
+
+  const cookie = {
+    img: oneCookie,
+    width: 30,
+    height: 30,
+    x: 400,
+    y: 40,
+    vx: 0.3,
+    vy: 0.4,
+
+    draw() {
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    },
+    // velocity() {
+    //   cookie.x += cookie.vx;
+    //   cookie.y += cookie.vy;
+    // },
+  };
+  function getMousePosition(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+
+    console.log('Coordinate x: ' + x, 'Coordinate y:' + y);
+  }
+
+  const myCookies = [];
+  class Projectile {
+    constructor(x, y, radius, color, velocity) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.color = color;
+      this.velocity = x + velocity;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+  }
+
+  window.addEventListener('click', (event) => {
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    const projectile = new Projectile(x, y, 5, 'blue', 0.2);
+    getMousePosition(myCanvas, event);
+    myCookies.push(projectile);
+  });
+
+  //  getbounding binds the canvas so it starts the coordinates 0,0 at that position then we attach the x to whereever we are clicking - the left side
+
+  // class Cookie {
+  // constructor(x, y) {
+  //   this.img = oneCookie;
+  //   this.x = x;
+  //   this.y = y;
+  // }
+
+  //   draw() {
+  //     ctx.drawImage(this.img, this.x, this.y, 30, 30);
+  //   }
+  // }
+
+  // addEventListener('click', (event) => {
+  //   const cookieDrawer = new Cookie(event.clientX, event.clientY);
+  //   console.log(cookieDrawer.draw());
+  // });
 
   const astro = {
     img: astronautFalling,
@@ -272,6 +344,7 @@ function startGame() {
       }
       if (frame % 100 === 0 && count >= 10) {
         mysideBalls.push(new sideBalls(ctx));
+        myFireballs.push(new Fireballs(ctx));
       }
 
       ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
@@ -285,7 +358,15 @@ function startGame() {
       // secondFireball.velocity();
       astro.draw();
       astro.velocity();
+
+      // addEventListener('click', () => {
+      //   cookie.draw();
+      // });
+
       // astro.stayAlive();
+      for (let i = 0; i < myCookies.length; i++) {
+        myCookies[i].draw();
+      }
 
       for (let i = 0; i < myFireballs.length; i++) {
         myFireballs[i].move();
@@ -301,6 +382,9 @@ function startGame() {
 
       start = timestamp;
     }
+    // myCanvas.addEventListener('click', () => {
+    //   cookie.draw();
+    // });
     // console.log(`current time is  ${timestamp}`);
     // spaceImageObject.move();
     // frame += 1;
@@ -349,17 +433,13 @@ function startGame() {
     requestAnimationFrame(updateSpace); // ? ask //
   }
 
-  window.addEventListener('mousemove', function (e) {
-    let x = e.pageX;
-    let y = e.pageY;
-  });
-
   window.addEventListener('keydown', (event) => {
     switch (event.key) {
       case 's':
         astro.moveDown();
         sKey.classList.toggle('toggle');
         minus();
+        console.log(cookie.draw());
 
         break;
       case 'd':
@@ -384,3 +464,4 @@ function startGame() {
     }
   });
 }
+//  so make an array and loop and everytime i click on new position it creates a new cookie and push cookie into array
