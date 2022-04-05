@@ -1,6 +1,6 @@
 body {
   background-image: url(/img/space.jpg);
-
+  background-color: black;
   /* overflow: hidden; */
 }
 canvas {
