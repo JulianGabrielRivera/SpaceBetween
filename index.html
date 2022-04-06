@@ -5,34 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Space Between</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@300&family=Rubik+Moonrocks&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
   <body>
-    <div class="spacebetween">
-      <div class="flex">
-        <div class="text score">Lift me up: <span>0</span></div>
+    <main class="spacebetween">
 
-        <div class="text dodged">Dodged:</div>
-      </div>
+      <div class="container">
+        <article class="card">
+          
+          <p class="text score">
+            <i class="fa-solid fa-user-astronaut"></i> Lift me up:
+            <span>0</span>
+          </p>
+
+          <p class="text dodged">
+            <i class="fa-solid fa-meteor"></i> Asteroids removed: 0
+          </p>
+        </div>
+     
+
       <!-- the magic happens inside this tag - 
             it's HTML5 tag that supports animation -->
 
-      <div id="space">
+      <div id="container2">
+
         <h1>The Space Between 2</h1>
+
         <div class="keys wkey"><span class="box">W</span></div>
-        <div class="keys">
+        <article class="keycontainer">
+        <div class="keys akey"><span class="box">A</span></div>
+        <div class="keys skey"><span class="box">S</span></div>
+        <div class="keys dkey"><span class="box">D</span></div>
+      </article>
+
+        <!-- <div class="keys">
           <span class="box akey">A</span><span class="box skey">S</span
           ><span class="box dkey">D</span>
-        </div>
+        </div> -->
+       
         <canvas id="canvas" width="800" height="400"></canvas>
 
-        <div class="level">Level: <span>1</span></div>
+        <p class="level">Level: <span>1</span></p>
         <button id="start-button">Fall with me</button>
 
         <img class="spaceshuttle" src="img/movespaceshuttle.png" />
       </div>
-    </div>
+    </main>
 
     <!-- include js file after DOM is loaded; 
             if included earlier, you have to use window.onload = function(){ ... } 

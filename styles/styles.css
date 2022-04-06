@@ -1,32 +1,58 @@
 body {
   background-image: url(/img/space.jpg);
-  background-color: black;
+  font-family: 'Rubik Moonrocks', cursive;
   /* overflow: hidden; */
 }
 canvas {
-  border: 1px solid red;
 }
-#canvas2 {
-  border: 1px solid red;
-}
-.hidden {
-  display: none;
-}
+
 .spacebetween {
   display: flex;
   color: white;
   flex-direction: row;
   justify-content: space-evenly;
 }
-.flex {
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hidden {
+  display: none;
+}
+.card {
+  background: linear-gradient(
+    45deg,
+    #00076f,
+    #44008b,
+    #9f45b0,
+    #e54ed0,
+    #ffe4f2
+  );
+  /* the seconds here make it faster and infinite makes it go on forever */
+  animation: gradient 5s linear infinite;
+  /* alternate if it moves all way to end it will movebackwards automatically */
+  animation-direction: alternate;
+  /* the more color we have the more we need to increase these properties */
+  background-size: 600% 150%;
+  border: 2px solid beige;
+  height: 400px;
+  width: 500px;
+  color: black;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   font-weight: bold;
+  color: white;
+}
+.text {
+  color: white;
+  font-size: 1.2rem;
 }
 
-#space {
+#container2 {
   height: 900px;
   display: flex;
   justify-content: center;
@@ -35,30 +61,35 @@ canvas {
 }
 
 .keys {
+  display: flex;
   color: white;
 
   font-weight: bold;
   font-size: 1.5rem;
-  border: 1px solid red;
+
   margin-bottom: 10px;
+  border: 2px solid beige;
+  padding: 0 8px;
+}
+.keycontainer {
+  display: flex;
 }
 .toggle {
   background-color: white;
   color: black;
 }
-.box {
-  /* background-color: white; */
-  border: 2px solid red;
-  padding-right: 5px;
-  padding-left: 5px;
-}
+
 #start-button {
   color: white;
   background-color: black;
-  border-radius: 30px;
+  border-radius: 8px;
   width: 100px;
   height: 30px;
   margin-top: 20px;
+  font-family: 'Rubik Moonrocks', cursive;
+}
+#start-button:hover {
+  background-color: red;
 }
 
 .spaceshuttle {
@@ -71,11 +102,21 @@ canvas {
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
 }
+
 @keyframes fly {
   from {
     transform: translateX(100%);
   }
   to {
     transform: translateX(0%);
+  }
+}
+/* this is needed to animate the movement  */
+@keyframes gradient {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
   }
 }

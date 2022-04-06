@@ -14,7 +14,11 @@ const dKey = document.querySelector('.dkey');
 
 const liftedUp = document.querySelector('.score span');
 const levelUp = document.querySelector('.level span');
+const startButton = document.querySelector('#start-button');
 
+startButton.addEventListener('mouseover', () => {
+  startButton.style.backgroundColor = 'red';
+});
 // function to start the game, creates the canvas
 function startGame() {
   const myCanvas = document.querySelector('#canvas');
@@ -29,8 +33,12 @@ function startGame() {
 
   const spaceImageTwo = new Image();
   spaceImageTwo.src = './img/earth.jpg';
-  const oneCookie = new Image();
-  oneCookie.src = './img/cookie.png';
+
+  const oneBubble = new Image();
+  oneBubble.src = './img/bubble.png';
+
+  const rocks = new Image();
+  rocks.src = './img/rocks.png';
 
   const astronautFalling = new Image();
   astronautFalling.src = './img/astronautfalling.png';
@@ -39,7 +47,7 @@ function startGame() {
   fireball.src = './img/fireball.png';
 
   const sideFireBall = new Image();
-  sideFireBall.src = './img/sideball.png';
+  sideFireBall.src = './img/asteroid1.png';
 
   // ???
 
@@ -78,6 +86,30 @@ function startGame() {
   // let gravity = 0.001;
 
   //  changed this into a class so we could run a for loop to make a bunch of them
+
+  class Rocks {
+    constructor(ctx) {
+      this.img = rocks;
+      this.ctx = ctx;
+      this.width = 50;
+      this.height = 20;
+      this.x = 800;
+      this.y = Math.floor(Math.random() * 400);
+      this.vx = 0.3;
+      this.vy = 0.5;
+    }
+
+    move() {
+      this.x -= 1;
+    }
+    draw() {
+      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+    // velocity(){
+    //   if(sideBalls.)
+    // }
+  }
+  new Rocks(ctx);
 
   const myFireballs = [];
 
@@ -123,11 +155,32 @@ function startGame() {
   function increment() {
     count = count + 1;
     liftedUp.textContent = count;
-    if (count > 30) {
+    if (count > 50) {
       levelUp.textContent = 2;
     }
-    if (count > 50) {
+    if (count > 100) {
       levelUp.textContent = 3;
+    }
+    if (count > 150) {
+      levelUp.textContent = 4;
+    }
+    if (count > 200) {
+      levelUp.textContent = 5;
+    }
+    if (count > 250) {
+      levelUp.textContent = 6;
+    }
+    if (count > 300) {
+      levelUp.textContent = 7;
+    }
+    if (count > 350) {
+      levelUp.textContent = 8;
+    }
+    if (count > 400) {
+      levelUp.textContent = 9;
+    }
+    if (count > 450) {
+      levelUp.textContent = 10;
     }
   }
 
@@ -142,9 +195,9 @@ function startGame() {
   setInterval(minus, 2000);
 
   const cookie = {
-    img: oneCookie,
-    width: 30,
-    height: 30,
+    img: oneBubble,
+    width: 20,
+    height: 60,
     x: 400,
     y: 40,
     vx: 0.3,
@@ -158,39 +211,86 @@ function startGame() {
     //   cookie.y += cookie.vy;
     // },
   };
-  function getMousePosition(canvas, event) {
-    let rect = canvas.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
 
-    console.log('Coordinate x: ' + x, 'Coordinate y:' + y);
+  // function getMousePosition(canvas, event) {
+  //   let rect = canvas.getBoundingClientRect();
+  //   let x = event.clientX - rect.left;
+  //   let y = event.clientY - rect.top;
+
+  //   console.log('Coordinate x: ' + x, 'Coordinate y:' + y);
+  // }
+
+  const myBubbles = [];
+  // class Projectile {
+  //   constructor(x, y, radius, color, velocity) {
+  //     this.x = x;
+  //     this.y = y;
+  //     this.radius = radius;
+  //     this.color = color;
+  //     this.velocity = x + velocity;
+  //   }
+  //   draw() {
+  //     ctx.beginPath();
+  //     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+  //     ctx.fillStyle = this.color;
+  //     ctx.fill();
+  //   }
+  //   move() {
+  //     this.x += 1;
+  //   }
+  // }
+
+  class Bubble {
+    constructor(ctx) {
+      let rect = canvas.getBoundingClientRect();
+      this.img = oneBubble;
+      this.ctx = ctx; // ?
+      this.width = 40;
+      this.height = 40;
+      this.x = event.clientX - rect.left; // number between 0 and 800
+      this.y = event.clientY - rect.top;
+      this.vx = 1;
+      this.vy = 0.8;
+    }
+
+    move() {
+      this.y -= 1;
+    }
+    draw(event) {
+      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    velocity() {
+      this.x += this.vx;
+      this.y += ththis;
+    }
+    removeAsteroid(anAsteroid) {
+      return (
+        this.x < anAsteroid.x + anAsteroid.width &&
+        this.x + this.width > anAsteroid.x &&
+        this.y < anAsteroid.y + anAsteroid.width &&
+        this.y + this.height > anAsteroid.y
+      );
+    }
   }
 
-  const myCookies = [];
-  class Projectile {
-    constructor(x, y, radius, color, velocity) {
-      this.x = x;
-      this.y = y;
-      this.radius = radius;
-      this.color = color;
-      this.velocity = x + velocity;
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    }
-  }
+  // let bubblehey = new Bubble(ctx);
+  //  would run this command in loop.
+  // bubblehey.removeAsteroid(anAsteroid)
 
   window.addEventListener('click', (event) => {
-    let rect = canvas.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
-    const projectile = new Projectile(x, y, 5, 'blue', 0.2);
-    getMousePosition(myCanvas, event);
-    myCookies.push(projectile);
+    // getMousePosition(myCanvas, event);
+    myBubbles.push(new Bubble(ctx));
+    // Cookie.move();
   });
+  // window.addEventListener('click', (event) => {
+  //   let rect = canvas.getBoundingClientRect();
+  //   let x = event.clientX - rect.left;
+  //   let y = event.clientY - rect.top;
+  //   const projectile = new Projectile(x, y, 5, 'blue', 0.2);
+  //   getMousePosition(myCanvas, event);
+  //   myCookies.push(projectile);
+  // });
 
   //  getbounding binds the canvas so it starts the coordinates 0,0 at that position then we attach the x to whereever we are clicking - the left side
 
@@ -290,6 +390,19 @@ function startGame() {
       console.log('dying');
     }
   }
+  // let bubbleX = Bubble.x;
+  // console.log(bubbleX);
+
+  // function removeAsteroid(anAsteroid) {
+  //   if (
+  //     Bubble.x < anAsteroid.x + anAsteroid.width &&
+  //     (Bubble.x + Bubble.width > anAsteroid.x) &
+  //       (Bubble.y < anAsteroid.y + anAsteroid.width) &&
+  //     Bubble.y + Bubble.height > anAsteroid.y
+  //   ) {
+  //     console.log('removeit');
+  //   }
+  // }
 
   //   class Increment {
   // constructor(){
@@ -310,23 +423,18 @@ function startGame() {
     constructor(ctx) {
       this.img = sideFireBall;
       this.ctx = ctx;
-      this.width = 40;
-      this.height = 40;
+      this.width = 30;
+      this.height = 30;
       this.x = 800;
       this.y = Math.floor(Math.random() * 400);
-      this.vx = 0.3;
-      this.vy = 0.5;
     }
 
     move() {
-      this.x -= 1;
+      this.x -= 3;
     }
     draw() {
       this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
-    // velocity(){
-    //   if(sideBalls.)
-    // }
   }
 
   let start = 0;
@@ -341,9 +449,34 @@ function startGame() {
 
       if (frame % 150 === 0) {
         myFireballs.push(new Fireballs(ctx));
-      }
-      if (frame % 100 === 0 && count >= 10) {
         mysideBalls.push(new sideBalls(ctx));
+      }
+      if (frame % 130 === 0 && count >= 50) {
+        mysideBalls.push(new sideBalls(ctx));
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 110 === 0 && count >= 100) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 100 === 0 && count >= 150) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 90 === 0 && count >= 200) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 70 === 0 && count >= 250) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 50 === 0 && count >= 300) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 30 === 0 && count >= 350) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 20 === 0 && count >= 400) {
+        myFireballs.push(new Fireballs(ctx));
+      }
+      if (frame % 10 === 0 && count >= 450) {
         myFireballs.push(new Fireballs(ctx));
       }
 
@@ -364,8 +497,23 @@ function startGame() {
       // });
 
       // astro.stayAlive();
-      for (let i = 0; i < myCookies.length; i++) {
-        myCookies[i].draw();
+      for (let i = 0; i < myBubbles.length; i++) {
+        myBubbles[i].move();
+        myBubbles[i].draw();
+        let bubbleX = myBubbles[i].x;
+
+        // console.log(myBubbles[i].x);
+        // works cause moves in a single dimension/ but multi dimensional use top one
+        for (let i = 0; i < mysideBalls.length; i++) {
+          let asteroidX = mysideBalls[i].x;
+          if (bubbleX > asteroidX) {
+            mysideBalls.splice(0, 1);
+            console.log('later');
+          }
+          // mysideBalls[i].velocity();
+        }
+
+        // Bubble.removeAsteroid(myBubbles[i]);
       }
 
       for (let i = 0; i < myFireballs.length; i++) {
@@ -378,6 +526,7 @@ function startGame() {
       for (let i = 0; i < mysideBalls.length; i++) {
         mysideBalls[i].move();
         mysideBalls[i].draw();
+        // mysideBalls[i].velocity();
       }
 
       start = timestamp;
@@ -439,7 +588,6 @@ function startGame() {
         astro.moveDown();
         sKey.classList.toggle('toggle');
         minus();
-        console.log(cookie.draw());
 
         break;
       case 'd':
