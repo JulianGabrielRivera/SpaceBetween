@@ -47,6 +47,33 @@ canvas {
   font-weight: bold;
   color: white;
 }
+.card2 {
+  background: linear-gradient(
+    45deg,
+    #00076f,
+    #44008b,
+    #9f45b0,
+    #e54ed0,
+    #ffe4f2
+  );
+  /* the seconds here make it faster and infinite makes it go on forever */
+  animation: gradient 5s linear infinite;
+  /* alternate if it moves all way to end it will movebackwards automatically */
+  animation-direction: alternate;
+  /* the more color we have the more we need to increase these properties */
+  background-size: 600% 150%;
+  border: 2px solid beige;
+  height: 200px;
+  width: 250px;
+  color: black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+}
 .text {
   color: white;
   font-size: 1.2rem;
@@ -90,6 +117,11 @@ canvas {
 }
 #start-button:hover {
   background-color: red;
+}
+
+.heart {
+  height: 20px;
+  width: 30px;
 }
 
 .spaceshuttle {

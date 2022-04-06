@@ -12,6 +12,9 @@ const sKey = document.querySelector('.skey');
 const aKey = document.querySelector('.akey');
 const dKey = document.querySelector('.dkey');
 
+const parent = document.querySelector('.hearts');
+// const heart = document.querySelector('.heart');
+
 const liftedUp = document.querySelector('.score span');
 const levelUp = document.querySelector('.level span');
 const startButton = document.querySelector('#start-button');
@@ -36,6 +39,9 @@ function startGame() {
 
   const oneBubble = new Image();
   oneBubble.src = './img/bubble.png';
+
+  const dbzFireball = new Image();
+  dbzFireball.src = './img/dbzfireball.png';
 
   const rocks = new Image();
   rocks.src = './img/rocks.png';
@@ -86,6 +92,58 @@ function startGame() {
   // let gravity = 0.001;
 
   //  changed this into a class so we could run a for loop to make a bunch of them
+  // const dbz = {
+  //   img: dbzFireball,
+  //   x: 300,
+  //   y: 700,
+  //   vx: 0.2,
+  //   vy: 1.2,
+  //   width: 200,
+  //   height: 200,
+
+  //   draw() {
+  //     // the first grabs the image, second one and third grab where it is posiiton in the canvas// and the last two are the width and height of the image.
+  //     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  //   },
+  //   leftBorder() {
+  //     return this.x;
+  //   },
+  //   rightBorder() {
+  //     return this.x + this.width;
+  //   },
+  //   topBorder() {
+  //     return this.y;
+  //   },
+  //   bottomBorder() {
+  //     return this.y + this.height;
+  //   },
+  //   move() {
+  //     this.x -= 1;
+  //   },
+  // };
+  // dbz.draw();
+  class Dbz {
+    constructor(ctx) {
+      this.img = dbzFireball;
+      this.ctx = ctx;
+      this.width = 100;
+      this.height = 100;
+      this.x = 700;
+      this.y = 280;
+      this.vx = 0.3;
+      this.vy = 0.5;
+    }
+
+    move() {
+      this.x -= 1;
+      this.y -= 0.3;
+    }
+    draw() {
+      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+  }
+
+  let dbzBall = new Dbz(ctx);
 
   class Rocks {
     constructor(ctx) {
@@ -258,7 +316,7 @@ function startGame() {
     vy: 1.2,
     width: 50,
     height: 100,
-    health: 100,
+    health: 3,
 
     // newPos
 
@@ -316,10 +374,21 @@ function startGame() {
       astro.x < aFireball.x + aFireball.width &&
       astro.x + astro.width > aFireball.x &&
       astro.y < aFireball.y + aFireball.width &&
-      astro.y + astro.height > aFireball.y
+      astro.y + astro.height > aFireball.y &&
+      astro.health <= 3
     ) {
-      console.log('dying');
+      //  find place to remove fireball if hit
+      astro.health = astro.health - 1;
+      const heart = document.querySelector('.heart');
+      parent.removeChild(heart);
+      return true;
     }
+    if (astro.health === 0) {
+      alert('Rage, rage against the dying of the light');
+    }
+    // give alert or display something else
+
+    // alert('you lost');
   }
   // let bubbleX = Bubble.x;
   // console.log(bubbleX);
@@ -419,6 +488,8 @@ function startGame() {
       astro.velocity();
       createRocks.draw();
       createRocks.move();
+      dbzBall.draw();
+      dbzBall.move();
 
       for (let i = 0; i < myBubbles.length; i++) {
         myBubbles[i].move();
@@ -436,7 +507,10 @@ function startGame() {
         myFireballs[i].move();
         myFireballs[i].draw();
         myFireballs[i].velocity();
-        onFire(myFireballs[i]);
+        if (onFire(myFireballs[i])) {
+          //if fireball at i remove the fireball
+          myFireballs.splice(i, 1);
+        }
       }
       for (let i = 0; i < mysideBalls.length; i++) {
         mysideBalls[i].move();
