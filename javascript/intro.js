@@ -91,8 +91,8 @@ function startGame() {
     constructor(ctx) {
       this.img = rocks;
       this.ctx = ctx;
-      this.width = 50;
-      this.height = 20;
+      this.width = 70;
+      this.height = 50;
       this.x = 800;
       this.y = Math.floor(Math.random() * 400);
       this.vx = 0.3;
@@ -105,11 +105,8 @@ function startGame() {
     draw() {
       this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
-    // velocity(){
-    //   if(sideBalls.)
-    // }
   }
-  new Rocks(ctx);
+  let createRocks = new Rocks(ctx);
 
   const myFireballs = [];
 
@@ -194,24 +191,6 @@ function startGame() {
   }
   setInterval(minus, 2000);
 
-  const cookie = {
-    img: oneBubble,
-    width: 20,
-    height: 60,
-    x: 400,
-    y: 40,
-    vx: 0.3,
-    vy: 0.4,
-
-    draw() {
-      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    },
-    // velocity() {
-    //   cookie.x += cookie.vx;
-    //   cookie.y += cookie.vy;
-    // },
-  };
-
   // function getMousePosition(canvas, event) {
   //   let rect = canvas.getBoundingClientRect();
   //   let x = event.clientX - rect.left;
@@ -221,24 +200,6 @@ function startGame() {
   // }
 
   const myBubbles = [];
-  // class Projectile {
-  //   constructor(x, y, radius, color, velocity) {
-  //     this.x = x;
-  //     this.y = y;
-  //     this.radius = radius;
-  //     this.color = color;
-  //     this.velocity = x + velocity;
-  //   }
-  //   draw() {
-  //     ctx.beginPath();
-  //     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-  //     ctx.fillStyle = this.color;
-  //     ctx.fill();
-  //   }
-  //   move() {
-  //     this.x += 1;
-  //   }
-  // }
 
   class Bubble {
     constructor(ctx) {
@@ -260,10 +221,6 @@ function startGame() {
       this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    velocity() {
-      this.x += this.vx;
-      this.y += ththis;
-    }
     removeAsteroid(anAsteroid) {
       return (
         this.x < anAsteroid.x + anAsteroid.width &&
@@ -273,12 +230,11 @@ function startGame() {
       );
     }
   }
-
-  // let bubblehey = new Bubble(ctx);
+  let bubblehey = new Bubble(ctx);
   //  would run this command in loop.
   // bubblehey.removeAsteroid(anAsteroid)
 
-  window.addEventListener('click', (event) => {
+  myCanvas.addEventListener('click', (event) => {
     // getMousePosition(myCanvas, event);
     myBubbles.push(new Bubble(ctx));
     // Cookie.move();
@@ -293,23 +249,6 @@ function startGame() {
   // });
 
   //  getbounding binds the canvas so it starts the coordinates 0,0 at that position then we attach the x to whereever we are clicking - the left side
-
-  // class Cookie {
-  // constructor(x, y) {
-  //   this.img = oneCookie;
-  //   this.x = x;
-  //   this.y = y;
-  // }
-
-  //   draw() {
-  //     ctx.drawImage(this.img, this.x, this.y, 30, 30);
-  //   }
-  // }
-
-  // addEventListener('click', (event) => {
-  //   const cookieDrawer = new Cookie(event.clientX, event.clientY);
-  //   console.log(cookieDrawer.draw());
-  // });
 
   const astro = {
     img: astronautFalling,
@@ -371,14 +310,6 @@ function startGame() {
         astro.vx *= -1;
       }
     },
-
-    //     alert('yo');
-    //   }
-
-    // gravity: function () {
-    //   this.vy += gravity;
-    //   this.vx aFireball
-    // },
   };
   function onFire(aFireball) {
     if (
@@ -484,36 +415,21 @@ function startGame() {
 
       spaceImageObject.draw();
 
-      // ctx.drawImage(astronautFalling, 400, 40, 50, 100);
-      // meteorShower.draw();
-      // meteorShower.velocity();
-      // secondFireball.draw();
-      // secondFireball.velocity();
       astro.draw();
       astro.velocity();
+      createRocks.draw();
+      createRocks.move();
 
-      // addEventListener('click', () => {
-      //   cookie.draw();
-      // });
-
-      // astro.stayAlive();
       for (let i = 0; i < myBubbles.length; i++) {
         myBubbles[i].move();
         myBubbles[i].draw();
-        let bubbleX = myBubbles[i].x;
-
-        // console.log(myBubbles[i].x);
-        // works cause moves in a single dimension/ but multi dimensional use top one
-        for (let i = 0; i < mysideBalls.length; i++) {
-          let asteroidX = mysideBalls[i].x;
-          if (bubbleX > asteroidX) {
-            mysideBalls.splice(0, 1);
-            console.log('later');
+        for (let j = 0; j < mysideBalls.length; j++) {
+          if (myBubbles[i].removeAsteroid(mysideBalls[j])) {
+            mysideBalls.splice(j, 1);
           }
+
           // mysideBalls[i].velocity();
         }
-
-        // Bubble.removeAsteroid(myBubbles[i]);
       }
 
       for (let i = 0; i < myFireballs.length; i++) {
@@ -521,7 +437,6 @@ function startGame() {
         myFireballs[i].draw();
         myFireballs[i].velocity();
         onFire(myFireballs[i]);
-        // onFire(myFireballs[i]);
       }
       for (let i = 0; i < mysideBalls.length; i++) {
         mysideBalls[i].move();
@@ -531,9 +446,7 @@ function startGame() {
 
       start = timestamp;
     }
-    // myCanvas.addEventListener('click', () => {
-    //   cookie.draw();
-    // });
+
     // console.log(`current time is  ${timestamp}`);
     // spaceImageObject.move();
     // frame += 1;
