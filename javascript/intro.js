@@ -607,7 +607,7 @@ function startGame() {
 
       case 'Control':
         console.log('hey');
-        astro.gravity();
+
         break;
     }
   });
