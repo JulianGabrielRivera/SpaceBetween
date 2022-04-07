@@ -7,26 +7,34 @@ window.onload = () => {
   };
 };
 
-const wKey = document.querySelector('.wkey');
-const sKey = document.querySelector('.skey');
-const aKey = document.querySelector('.akey');
-const dKey = document.querySelector('.dkey');
-
-const parent = document.querySelector('.hearts');
-// const heart = document.querySelector('.heart');
-
-const liftedUp = document.querySelector('.score span');
-const levelUp = document.querySelector('.level span');
-const startButton = document.querySelector('#start-button');
-
-startButton.addEventListener('mouseover', () => {
-  startButton.style.backgroundColor = 'red';
-});
 // function to start the game, creates the canvas
 function startGame() {
-  const myCanvas = document.querySelector('#canvas');
+  const wKey = document.querySelector('.wkey');
+  const sKey = document.querySelector('.skey');
+  const aKey = document.querySelector('.akey');
+  const dKey = document.querySelector('.dkey');
 
+  const parent = document.querySelector('.hearts');
+
+  const liftedUp = document.querySelector('.score span');
+  const levelUp = document.querySelector('.level span');
+
+  const myCanvas = document.querySelector('#canvas');
   const ctx = myCanvas.getContext('2d');
+
+  if (document.getElementById('show')) {
+    const retryOne = document.getElementById('show');
+    // const retryTwo = document.querySelector('.retry');
+
+    liftedUp.textContent = 0;
+    levelUp.textContent = 1;
+
+    retryOne.setAttribute('id', 'hidden');
+
+    // retryTwo.classList.remove('retry');
+    myCanvas.classList.remove('hidden');
+    myCanvas.classList.add('show');
+  }
 
   let frame = 0; // ? ask
 
@@ -39,9 +47,6 @@ function startGame() {
 
   const oneBubble = new Image();
   oneBubble.src = './img/bubble.png';
-
-  const dbzFireball = new Image();
-  dbzFireball.src = './img/dbzfireball.png';
 
   const rocks = new Image();
   rocks.src = './img/rocks.png';
@@ -89,62 +94,6 @@ function startGame() {
     },
   };
 
-  // let gravity = 0.001;
-
-  //  changed this into a class so we could run a for loop to make a bunch of them
-  // const dbz = {
-  //   img: dbzFireball,
-  //   x: 300,
-  //   y: 700,
-  //   vx: 0.2,
-  //   vy: 1.2,
-  //   width: 200,
-  //   height: 200,
-
-  //   draw() {
-  //     // the first grabs the image, second one and third grab where it is posiiton in the canvas// and the last two are the width and height of the image.
-  //     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  //   },
-  //   leftBorder() {
-  //     return this.x;
-  //   },
-  //   rightBorder() {
-  //     return this.x + this.width;
-  //   },
-  //   topBorder() {
-  //     return this.y;
-  //   },
-  //   bottomBorder() {
-  //     return this.y + this.height;
-  //   },
-  //   move() {
-  //     this.x -= 1;
-  //   },
-  // };
-  // dbz.draw();
-  class Dbz {
-    constructor(ctx) {
-      this.img = dbzFireball;
-      this.ctx = ctx;
-      this.width = 100;
-      this.height = 100;
-      this.x = 700;
-      this.y = 280;
-      this.vx = 0.3;
-      this.vy = 0.5;
-    }
-
-    move() {
-      this.x -= 1;
-      this.y -= 0.3;
-    }
-    draw() {
-      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
-  }
-
-  let dbzBall = new Dbz(ctx);
-
   class Rocks {
     constructor(ctx) {
       this.img = rocks;
@@ -166,7 +115,7 @@ function startGame() {
   }
   let createRocks = new Rocks(ctx);
 
-  const myFireballs = [];
+  let myFireballs = [];
 
   class Fireballs {
     constructor(ctx) {
@@ -257,7 +206,7 @@ function startGame() {
   //   console.log('Coordinate x: ' + x, 'Coordinate y:' + y);
   // }
 
-  const myBubbles = [];
+  let myBubbles = [];
 
   class Bubble {
     constructor(ctx) {
@@ -288,23 +237,11 @@ function startGame() {
       );
     }
   }
-  let bubblehey = new Bubble(ctx);
-  //  would run this command in loop.
-  // bubblehey.removeAsteroid(anAsteroid)
 
   myCanvas.addEventListener('click', (event) => {
     // getMousePosition(myCanvas, event);
     myBubbles.push(new Bubble(ctx));
-    // Cookie.move();
   });
-  // window.addEventListener('click', (event) => {
-  //   let rect = canvas.getBoundingClientRect();
-  //   let x = event.clientX - rect.left;
-  //   let y = event.clientY - rect.top;
-  //   const projectile = new Projectile(x, y, 5, 'blue', 0.2);
-  //   getMousePosition(myCanvas, event);
-  //   myCookies.push(projectile);
-  // });
 
   //  getbounding binds the canvas so it starts the coordinates 0,0 at that position then we attach the x to whereever we are clicking - the left side
 
@@ -361,16 +298,21 @@ function startGame() {
       astro.x += astro.vx;
       astro.y += astro.vy;
       //40 +0.2 > top of border?
-      if (astro.y + astro.vy > 400) {
+      if (astro.y + astro.vy > 400 && document.getElementById('hidden')) {
         const retryOne = document.getElementById('hidden');
+
         retryOne.setAttribute('id', 'show');
+
+        myCanvas.classList.remove('show');
         myCanvas.classList.add('hidden');
       }
+
       if (astro.x + astro.vx > 760 || astro.x + astro.vx < 0) {
         astro.vx *= -1;
       }
     },
   };
+
   function onFire(aFireball) {
     if (
       astro.x < aFireball.x + aFireball.width &&
@@ -383,47 +325,20 @@ function startGame() {
       astro.health = astro.health - 1;
       const heart = document.querySelector('.heart');
       parent.removeChild(heart);
+
       return true;
     }
-    if (astro.health === 0) {
+    if (astro.health === 0 && document.getElementById('hidden')) {
       const retryOne = document.getElementById('hidden');
+
       retryOne.setAttribute('id', 'show');
+
+      myCanvas.classList.remove('show');
       myCanvas.classList.add('hidden');
-    } else {
-      myCanvas.classList.add('show');
     }
-    // give alert or display something else
-
-    // alert('you lost');
   }
-  // let bubbleX = Bubble.x;
-  // console.log(bubbleX);
 
-  // function removeAsteroid(anAsteroid) {
-  //   if (
-  //     Bubble.x < anAsteroid.x + anAsteroid.width &&
-  //     (Bubble.x + Bubble.width > anAsteroid.x) &
-  //       (Bubble.y < anAsteroid.y + anAsteroid.width) &&
-  //     Bubble.y + Bubble.height > anAsteroid.y
-  //   ) {
-  //     console.log('removeit');
-  //   }
-  // }
-
-  //   class Increment {
-  // constructor(){
-  //   this.currentTime = 0;
-  //   this.invervalId = null;
-  // }
-
-  //   }
-
-  // function onFire(aFireball) {
-  //   if (astro.leftBorder() + this.width > Fireballs.leftSide()) {
-  //     alert('yo');
-  //   }
-  // }
-  const mysideBalls = [];
+  let mysideBalls = [];
 
   class sideBalls {
     constructor(ctx) {
@@ -446,7 +361,10 @@ function startGame() {
   let start = 0;
   function updateSpace(timestamp) {
     //every second
-
+    //  this stops the loop if condition is met.
+    if (document.querySelector('#show')) {
+      return;
+    }
     // 1 / 1000 mi = 1 fps 10/1000  = 1/100
     if (timestamp - start > 8) {
       // console.log(`current time in game loop  ${timestamp}`);
@@ -494,8 +412,6 @@ function startGame() {
       astro.velocity();
       createRocks.draw();
       createRocks.move();
-      dbzBall.draw();
-      dbzBall.move();
 
       for (let i = 0; i < myBubbles.length; i++) {
         myBubbles[i].move();
@@ -521,58 +437,12 @@ function startGame() {
       for (let i = 0; i < mysideBalls.length; i++) {
         mysideBalls[i].move();
         mysideBalls[i].draw();
-        // mysideBalls[i].velocity();
       }
 
       start = timestamp;
     }
 
-    // console.log(`current time is  ${timestamp}`);
-    // spaceImageObject.move();
-    // frame += 1;
-
-    // if (frame % 150 === 0) {
-    //   myFireballs.push(new Fireballs(ctx));
-    // }
-    // if (frame % 250 === 0) {
-    //   mysideBalls.push(new sideBalls(ctx));
-    // }
-
-    // ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-
-    // spaceImageObject.draw();
-
-    // // ctx.drawImage(astronautFalling, 400, 40, 50, 100);
-    // // meteorShower.draw();
-    // // meteorShower.velocity();
-    // // secondFireball.draw();
-    // // secondFireball.velocity();
-    // astro.draw();
-    // astro.velocity();
-    // // astro.stayAlive();
-
-    // for (let i = 0; i < myFireballs.length; i++) {
-    //   myFireballs[i].move();
-    //   myFireballs[i].draw();
-    //   myFireballs[i].velocity();
-    // }
-    // for (let i = 0; i < mysideBalls.length; i++) {
-    //   mysideBalls[i].move();
-    //   mysideBalls[i].draw();
-    // }
-
-    // for (let i = 0; i < myFireballs.length; i++) {
-    //   if (astro.onFire(myFireballs[i])) {
-    //     console.log('yo');
-    //   }
-    // }
-
-    // run updatespace in 33 milliseconds
-    // console.log('about to call next loop but will wait 8 milsecs before exec');
-    // setTimeout(updateSpace, 8);
-
-    // console.log(`current time in request animation frame is  ${timestamp}`);
-    requestAnimationFrame(updateSpace); // ? ask //
+    requestAnimationFrame(updateSpace);
   }
 
   window.addEventListener('keydown', (event) => {
@@ -605,4 +475,3 @@ function startGame() {
     }
   });
 }
-//  so make an array and loop and everytime i click on new position it creates a new cookie and push cookie into array
