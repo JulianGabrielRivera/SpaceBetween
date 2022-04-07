@@ -362,7 +362,9 @@ function startGame() {
       astro.y += astro.vy;
       //40 +0.2 > top of border?
       if (astro.y + astro.vy > 400) {
-        alert("If you're falling down, We are both falling down.");
+        const retryOne = document.getElementById('hidden');
+        retryOne.setAttribute('id', 'show');
+        myCanvas.classList.add('hidden');
       }
       if (astro.x + astro.vx > 760 || astro.x + astro.vx < 0) {
         astro.vx *= -1;
@@ -384,7 +386,11 @@ function startGame() {
       return true;
     }
     if (astro.health === 0) {
-      alert('Rage, rage against the dying of the light');
+      const retryOne = document.getElementById('hidden');
+      retryOne.setAttribute('id', 'show');
+      myCanvas.classList.add('hidden');
+    } else {
+      myCanvas.classList.add('show');
     }
     // give alert or display something else
 

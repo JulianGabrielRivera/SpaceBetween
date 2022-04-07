@@ -20,6 +20,12 @@ canvas {
 .hidden {
   display: none;
 }
+#hidden {
+  display: none;
+}
+#show {
+  display: flex;
+}
 .card {
   background: linear-gradient(
     45deg,
@@ -73,6 +79,26 @@ canvas {
   align-items: center;
   font-weight: bold;
   color: white;
+}
+.retry {
+  background-color: red;
+  /* alternate if it moves all way to end it will movebackwards automatically */
+
+  /* the more color we have the more we need to increase these properties */
+
+  border: 2px solid beige;
+  height: 400px;
+  width: 500px;
+  color: black;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.2rem;
 }
 .text {
   color: white;
@@ -134,9 +160,19 @@ canvas {
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
 }
+.blink {
+  animation: blinker 0.3s linear infinite;
+}
+/* keyframes has to match your animations name */
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 
 @keyframes fly {
   from {
+    /*  this is what our animation looks like at 100 percent so at the end of X */
     transform: translateX(100%);
   }
   to {
