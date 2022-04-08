@@ -3,8 +3,6 @@ body {
   font-family: 'Rubik Moonrocks', cursive;
   /* overflow: hidden; */
 }
-canvas {
-}
 
 .spacebetween {
   display: flex;
@@ -17,18 +15,7 @@ canvas {
   justify-content: center;
   align-items: center;
 }
-.hidden {
-  display: none;
-}
-#hidden {
-  display: none;
-}
-#show {
-  display: flex;
-}
-.show {
-  display: flex;
-}
+
 .card {
   background: linear-gradient(
     45deg,
@@ -115,6 +102,9 @@ canvas {
   align-items: center;
   flex-direction: column;
 }
+.keycontainer {
+  display: flex;
+}
 
 .keys {
   display: flex;
@@ -127,9 +117,7 @@ canvas {
   border: 2px solid beige;
   padding: 0 8px;
 }
-.keycontainer {
-  display: flex;
-}
+
 .toggle {
   background-color: white;
   color: black;
@@ -178,6 +166,19 @@ canvas {
 }
 .blink {
   animation: blinker 0.1s linear infinite;
+}
+
+.hidden {
+  display: none;
+}
+#hidden {
+  display: none;
+}
+#show {
+  display: flex;
+}
+.show {
+  display: flex;
 }
 /* keyframes has to match your animations name */
 @keyframes blinker {

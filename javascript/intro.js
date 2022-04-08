@@ -27,7 +27,7 @@ function startGame() {
 
   const parent = document.querySelector('.hearts');
 
-  const liftedUp = document.querySelector('.score span');
+  let liftedUp = document.querySelector('.score .lifted-score');
   const levelUp = document.querySelector('.level span');
   const asteroidDodged = document.querySelector('.dodged span');
   const myCanvas = document.querySelector('#canvas');
@@ -42,10 +42,15 @@ function startGame() {
   // const newArr = Array.from(parent.childNodes);
   // console.log(newArr);
   // console.log(parent.childNodes);
+  let count = 0;
   if (document.getElementById('show')) {
     const retryOne = document.getElementById('show');
     // const retryTwo = document.querySelector('.retry');
-
+    count = 0;
+    liftedUp.remove();
+    liftedUp = document.createElement('span');
+    liftedUp.classList.add('lifted-score');
+    document.querySelector('.score').appendChild(liftedUp);
     liftedUp.textContent = 0;
     levelUp.textContent = 1;
 
@@ -77,8 +82,8 @@ function startGame() {
   const fireball = new Image();
   fireball.src = './img/fireball.png';
 
-  const sideFireBall = new Image();
-  sideFireBall.src = './img/asteroid1.png';
+  const asteroidImg = new Image();
+  asteroidImg.src = './img/asteroid1.png';
 
   // ???
 
@@ -173,8 +178,6 @@ function startGame() {
       return this.y + this.height;
     }
   }
-
-  let count = 0;
 
   function increment() {
     count = count + 1;
@@ -371,11 +374,11 @@ function startGame() {
     }
   }
 
-  let mysideBalls = [];
+  let myAsteroids = [];
 
-  class sideBalls {
+  class Asteroids {
     constructor(ctx) {
-      this.img = sideFireBall;
+      this.img = asteroidImg;
       this.ctx = ctx;
       this.width = 30;
       this.height = 30;
@@ -414,10 +417,10 @@ function startGame() {
 
       if (frame % 150 === 0) {
         myFireballs.push(new Fireballs(ctx));
-        mysideBalls.push(new sideBalls(ctx));
+        myAsteroids.push(new Asteroids(ctx));
       }
       if (frame % 130 === 0 && count >= 50) {
-        mysideBalls.push(new sideBalls(ctx));
+        myAsteroids.push(new Asteroids(ctx));
         myFireballs.push(new Fireballs(ctx));
       }
       if (frame % 110 === 0 && count >= 100) {
@@ -457,9 +460,9 @@ function startGame() {
       for (let i = 0; i < myBubbles.length; i++) {
         myBubbles[i].move();
         myBubbles[i].draw();
-        for (let j = 0; j < mysideBalls.length; j++) {
-          if (myBubbles[i].removeAsteroid(mysideBalls[j])) {
-            mysideBalls.splice(j, 1);
+        for (let j = 0; j < myAsteroids.length; j++) {
+          if (myBubbles[i].removeAsteroid(myAsteroids[j])) {
+            myAsteroids.splice(j, 1);
             asteroidCount();
           }
 
@@ -476,9 +479,9 @@ function startGame() {
           myFireballs.splice(i, 1);
         }
       }
-      for (let i = 0; i < mysideBalls.length; i++) {
-        mysideBalls[i].move();
-        mysideBalls[i].draw();
+      for (let i = 0; i < myAsteroids.length; i++) {
+        myAsteroids[i].move();
+        myAsteroids[i].draw();
       }
 
       start = timestamp;
