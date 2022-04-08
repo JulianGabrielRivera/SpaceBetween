@@ -7,6 +7,17 @@ window.onload = () => {
   };
 };
 
+const heartImg = document.createElement('img');
+heartImg.src = './img/heart1.png';
+const heartImg2 = document.createElement('img');
+heartImg2.src = './img/heart1.png';
+const heartImg3 = document.createElement('img');
+heartImg3.src = './img/heart1.png';
+
+heartImg.classList.add('heart');
+heartImg2.classList.add('heart');
+heartImg3.classList.add('heart');
+
 // function to start the game, creates the canvas
 function startGame() {
   const wKey = document.querySelector('.wkey');
@@ -22,6 +33,13 @@ function startGame() {
   const myCanvas = document.querySelector('#canvas');
   const ctx = myCanvas.getContext('2d');
 
+  console.log(parent.childNodes);
+  if (parent.childNodes.length === 4) {
+    console.log('this condition is met');
+    parent.appendChild(heartImg);
+    parent.appendChild(heartImg2);
+    parent.appendChild(heartImg3);
+  }
   if (document.getElementById('show')) {
     const retryOne = document.getElementById('show');
     // const retryTwo = document.querySelector('.retry');
@@ -361,6 +379,7 @@ function startGame() {
   let start = 0;
   function updateSpace(timestamp) {
     //every second
+
     //  this stops the loop if condition is met.
     if (document.querySelector('#show')) {
       return;
