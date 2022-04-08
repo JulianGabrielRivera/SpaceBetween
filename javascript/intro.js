@@ -29,17 +29,19 @@ function startGame() {
 
   const liftedUp = document.querySelector('.score span');
   const levelUp = document.querySelector('.level span');
-
+  const asteroidDodged = document.querySelector('.dodged span');
   const myCanvas = document.querySelector('#canvas');
   const ctx = myCanvas.getContext('2d');
 
-  console.log(parent.childNodes);
-  if (parent.childNodes.length === 4) {
-    console.log('this condition is met');
+  if (parent.childNodes.length === 4 || parent.childNodes.length === 0) {
+    // console.log('this condition is met');
     parent.appendChild(heartImg);
     parent.appendChild(heartImg2);
     parent.appendChild(heartImg3);
   }
+  // const newArr = Array.from(parent.childNodes);
+  // console.log(newArr);
+  // console.log(parent.childNodes);
   if (document.getElementById('show')) {
     const retryOne = document.getElementById('show');
     // const retryTwo = document.querySelector('.retry');
@@ -177,6 +179,7 @@ function startGame() {
   function increment() {
     count = count + 1;
     liftedUp.textContent = count;
+
     if (count > 50) {
       levelUp.textContent = 2;
     }
@@ -211,6 +214,9 @@ function startGame() {
   // we set an interval here  cause we want it to keep going and we dont need an ID because we arent stopping it.
 
   function minus() {
+    if (parent.childNodes.length === 4) {
+      return;
+    }
     count--;
     liftedUp.textContent = count;
   }
@@ -319,6 +325,15 @@ function startGame() {
       if (astro.y + astro.vy > 400 && document.getElementById('hidden')) {
         const retryOne = document.getElementById('hidden');
 
+        // parent.childNodes.forEach((heart) => {
+        //   console.log(parent.childNodes);
+        //   heart.remove();
+        // });
+        // console.log(parent.childNodes);
+        // parent.removeChild(heartImg);
+        // parent.removeChild(heartImg2);
+        // parent.removeChild(heartImg3);
+
         retryOne.setAttribute('id', 'show');
 
         myCanvas.classList.remove('show');
@@ -374,6 +389,13 @@ function startGame() {
     draw() {
       this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
+  }
+
+  let asteroidCount1 = 0;
+  function asteroidCount() {
+    let asteroidCounter = (asteroidCount1 = asteroidCount1 + 1);
+
+    asteroidDodged.textContent = asteroidCounter;
   }
 
   let start = 0;
@@ -438,6 +460,7 @@ function startGame() {
         for (let j = 0; j < mysideBalls.length; j++) {
           if (myBubbles[i].removeAsteroid(mysideBalls[j])) {
             mysideBalls.splice(j, 1);
+            asteroidCount();
           }
 
           // mysideBalls[i].velocity();

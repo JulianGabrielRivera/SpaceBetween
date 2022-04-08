@@ -172,6 +172,10 @@ canvas {
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
 }
+.link {
+  text-decoration: none;
+  color: black;
+}
 .blink {
   animation: blinker 0.1s linear infinite;
 }
