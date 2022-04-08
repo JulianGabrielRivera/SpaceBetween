@@ -425,9 +425,11 @@ function startGame() {
       }
       if (frame % 110 === 0 && count >= 100) {
         myFireballs.push(new Fireballs(ctx));
+        myAsteroids.push(new Asteroids(ctx));
       }
       if (frame % 100 === 0 && count >= 150) {
         myFireballs.push(new Fireballs(ctx));
+        myAsteroids.push(new Asteroids(ctx));
       }
       if (frame % 90 === 0 && count >= 200) {
         myFireballs.push(new Fireballs(ctx));
